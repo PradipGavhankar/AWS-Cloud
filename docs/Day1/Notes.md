@@ -1,20 +1,23 @@
-# Day 1 – AWS EC2 Introduction
+# 🚀 Day 1 – AWS EC2 Introduction
 
 ---
 
 ## 1️⃣ AWS Console Overview
 
 Screenshot:
-![AWS Console](../../images/Day1/aws-console-dashboard.png)
+
+![AWS Console](../../images/Day1/01-ec2-dashboard.png)
 
 ---
 
 ## 2️⃣ EC2 Instance List
 
 Screenshot:
-![EC2 Instance List](../../images/Day1/ec2-instance-list.png)
 
-Key Observations:
+![EC2 Instance List](../../images/Day1/02-launch-instance.png)
+
+### Key Observations:
+
 - Instance ID
 - Instance Type (t2.micro)
 - Availability Zone
@@ -24,43 +27,12 @@ Key Observations:
 
 ---
 
-## 3️⃣ EC2 Instance Details
+## 3️⃣ Instance Running
 
-Screenshot:
-![EC2 Instance Details](../../images/Day1/ec2-instance-details.png)
-
-Important Fields:
-- Public IP
-- Private IP
-- Public DNS
-- Instance State
-- Security Group
+![Instance Running](../../images/Day1/03-instance-running.png)
 
 ---
 
-## 4️⃣ Security Groups
+## 4️⃣ Instance Details
 
-Screenshot:
-![Security Group](../../images/Day1/security-group-config.png)
-
-Security Group works as:
-- Virtual Firewall
-- Controls inbound and outbound traffic
-
----
-
-## 📌 Key Learnings
-
-- EC2 is Infrastructure as a Service (IaaS)
-- Public IP changes on stop/start (unless Elastic IP attached)
-- Security Group is stateful
-- Always document infra changes
-
----
-
-## 🚀 Next Steps
-
-- Launch EC2 using CLI
-- Attach Elastic IP
-- Practice key pairs
-- Understand IAM roles
+![Instance Details](../../images/Day1/04-instance-details.png)
