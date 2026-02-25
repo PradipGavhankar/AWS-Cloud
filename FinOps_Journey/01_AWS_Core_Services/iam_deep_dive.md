@@ -178,3 +178,71 @@ IAM controls:
 - Secure production design
 
 Mastering IAM is critical for clearing AWS/DevOps interviews.
+# 🔐 IAM Deep Dive – Enterprise Level
+
+---
+
+# 🟢 हिन्दी
+
+IAM AWS का heart है।
+
+## Key Components
+
+- Users
+- Groups
+- Roles
+- Policies
+
+---
+
+## 🛡️ Enterprise Best Practices
+
+1. Least Privilege
+2. Role-based access
+3. MFA enforcement
+4. Password policy strict
+5. No root usage
+6. Use IAM Roles for EC2
+7. Cross-account access via role assumption
+
+---
+
+## 🔎 Policy Types
+
+- Managed Policies
+- Inline Policies
+- Resource-based Policies
+
+---
+
+## 🔥 Real Scenario
+
+Production EC2 had S3 full access.
+
+Action:
+
+Created custom policy:
+Only GetObject access to specific bucket.
+
+Result:
+
+Reduced blast radius risk.
+
+---
+
+# 🔵 English Summary
+
+IAM strategy in enterprise:
+
+- Enforce least privilege
+- Use IAM roles instead of users
+- Enable MFA
+- Monitor using CloudTrail
+- Rotate credentials
+
+---
+
+# 📚 Official Reference
+
+IAM Best Practices:
+https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html
