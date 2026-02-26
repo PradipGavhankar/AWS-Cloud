@@ -4,79 +4,70 @@
 
 # 🖼️ AWS Process & Important Architecture Flow Images
 
-![VPC Architecture](images/aws_secure_vpc_architecture.png)
-![ALB Architecture](images/aws_alb_architecture.png)
-![Auto Scaling Flow](images/aws_autoscaling_flow.png)
-![CloudWatch Monitoring](images/aws_cloudwatch_monitoring.png)
-![S3 Lifecycle](images/aws_s3_lifecycle.png)
+![CloudTrail Architecture](images/cloudtrail_architecture_overview.png)
+![Multi Region Trail](images/cloudtrail_multi_region_trail.png)
+![Event Flow Diagram](images/cloudtrail_event_flow_diagram.jpg)
+![CloudWatch Logs Integration](images/cloudtrail_cloudwatch_logs_integration.webp)
+![Log File Validation](images/cloudtrail_log_file_validation.png)
 
 ---
 
 # 🟢 पहले हिन्दी में आसान समझ
 
-एक early-stage startup को secure, scalable और cost-optimized infrastructure चाहिए।
+एक startup को secure, scalable और cost-optimized infrastructure चाहिए।
 
-हमारा goal:
+हम ऐसा architecture design करेंगे जो:
 
-- Budget limited है 💰
-- Traffic unpredictable है 🚀
-- Downtime zero चाहिए 🔒
-- Security enterprise level चाहिए 🛡️
+- Traffic spike handle करे 🚀  
+- Secure हो 🔐  
+- Monitoring enabled हो 📊  
+- Audit compliant हो 📋  
+- Budget friendly हो 💰  
 
-इसलिए हम AWS में यह design करेंगे:
+Infrastructure design components:
 
-- VPC (Private + Public Subnet)
-- ALB (Load Balancer)
-- Auto Scaling EC2
+- VPC (Network isolation)
+- EC2 Auto Scaling
+- Application Load Balancer
 - RDS Multi-AZ
 - S3 with Lifecycle
 - CloudWatch Monitoring
+- CloudTrail Auditing
 - IAM Least Privilege
-- CloudTrail Audit
-- AWS Backup
 - KMS Encryption
 
 यह पूरा design FinOps mindset से होगा।
 
 मतलब:
-Infrastructure powerful भी हो और पैसा भी बचे 😊
+Power bhi mile aur paisa bhi bache 😊
 
 ---
 
 # 🔵 English Explanation
 
-We design a production-ready AWS architecture for a startup that requires:
+We design a secure, scalable, and cost-optimized AWS infrastructure aligned with FinOps principles.
 
-- High availability  
-- Security compliance  
-- Auto scaling  
-- Cost visibility  
-- Governance  
+Architecture includes:
 
-Services used:
-
-- Amazon VPC  
-- Application Load Balancer  
-- EC2 Auto Scaling  
-- Amazon RDS Multi-AZ  
-- Amazon S3 with lifecycle  
-- CloudWatch + CloudTrail  
-- IAM least privilege  
-- KMS encryption  
+- Multi-AZ deployment
+- Auto Scaling
+- Monitoring & alerting
+- Centralized logging
+- Encryption at rest and in transit
+- Cost governance
 
 Official References:
 
 VPC: https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html  
-ALB: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html  
 Auto Scaling: https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html  
-RDS: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html  
+CloudTrail: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html  
 CloudWatch: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html  
 S3 Lifecycle: https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html  
-IAM Best Practices: https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html  
+Well Architected: https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html  
 
 ---
 
-# 🧱 Terraform Infrastructure Code (Production Ready)
+# 🧱 Terraform Production Code
 
 ```hcl
 terraform {
@@ -94,12 +85,12 @@ provider "aws" {
   region = var.aws_region
 }
 
-# VPC create kar rahe hain
+# VPC bana rahe hain jo pura network isolate karega
 resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
 }
 
-# Public Subnet create kar rahe hain
+# Public subnet create kar rahe hain
 resource "aws_subnet" "public" {
   vpc_id     = aws_vpc.main.id
   cidr_block = var.public_subnet_cidr
@@ -112,12 +103,13 @@ resource "aws_launch_template" "app" {
   image_id      = var.ami_id
 }
 
-# Auto Scaling Group bana rahe hain
+# Auto Scaling Group create kar rahe hain
 resource "aws_autoscaling_group" "app" {
-  desired_capacity     = 2
-  max_size             = 4
-  min_size             = 2
-  vpc_zone_identifier  = [aws_subnet.public.id]
+  desired_capacity    = 2
+  max_size            = 4
+  min_size            = 2
+  vpc_zone_identifier = [aws_subnet.public.id]
+
   launch_template {
     id      = aws_launch_template.app.id
     version = "$Latest"
@@ -127,125 +119,108 @@ resource "aws_autoscaling_group" "app" {
 
 ---
 
-# 💰 Real Monthly Cost Calculation (Mumbai Region Approx)
+# 💰 Real Monthly Cost (Approx Mumbai Region)
 
-Scenario:
-
-2 EC2 t3.medium → $30 × 2 = $60  
+2 EC2 t3.medium → $60  
 ALB → $25  
-RDS db.t3.medium Multi-AZ → $120  
-S3 (100GB) → $2.3  
+RDS Multi-AZ → $120  
 CloudWatch Logs → $15  
+S3 100GB → $2.3  
 Data Transfer → $40  
 
-## 📊 Total Monthly ≈ $262  
-Yearly ≈ $3144  
+## 📊 Total ≈ $262/month  
 
-अगर Auto Scaling peak में 4 instances:
+Peak Scaling Month ≈ $322  
 
-Extra $60  
-Peak month ≈ $322  
-
-👉 FinOps Insight: Pay only when traffic increases.
+👉 FinOps Insight: Scale only when needed.
 
 ---
 
 # ✅ Best Practices
 
 ✔ Multi-AZ deployment  
-✔ Auto Scaling enabled  
-✔ Private Subnet for RDS  
-✔ IAM least privilege  
 ✔ Enable CloudTrail  
 ✔ Enable GuardDuty  
+✔ IAM least privilege  
 ✔ Encrypt with KMS  
 ✔ Use S3 lifecycle  
-✔ Enable AWS Backup  
-✔ Tagging for cost allocation  
-✔ Budget alerts configure  
-✔ Use Savings Plans for steady workload  
-✔ Enable CloudWatch Alarms  
-
-AWS Well Architected Reference:  
-https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html  
+✔ Enable budget alerts  
+✔ Use tagging for cost tracking  
+✔ Use Savings Plans  
+✔ Enable log validation  
+✔ Separate log archive account  
 
 ---
 
-# ❌ Worst Practices
+# ❌ Bad Practices
 
-❌ Public RDS  
-❌ Hardcoded secrets  
-❌ No monitoring  
-❌ No Auto Scaling  
 ❌ Single AZ production  
-❌ No backups  
-❌ Root user access  
+❌ Public RDS  
+❌ No monitoring  
+❌ Hardcoded secrets  
+❌ No backup  
 ❌ Manual console changes  
-❌ No tagging  
-❌ Over-provisioned EC2  
+❌ Overprovisioned EC2  
+❌ No cost visibility  
 
 ---
 
 # 😂 DevOps Comedy
 
-Startup Founder:  
-"Server slow hai!"
+Founder:  
+"Server down kyu hua?"
 
 DevOps:  
-"Traffic 5x ho gaya boss 😅"
+"Auto Scaling off tha boss 😅"
 
 Founder:  
-"Scale karo!"
+"Ab?"
 
 DevOps:  
-"Already auto scaling laga diya hai 😎"
+"Ab sab automated hai 😎"
 
 ---
 
 # 🚀 Real Achievement Story
 
-Traffic spike: 300%  
+Traffic spike 3x  
 Auto Scaling triggered  
 No downtime  
-Revenue saved: approx $12,000  
+Saved approx $12,000 revenue  
 
-CloudWatch alarm notified before crash.  
-Cost increased only $60 for peak week.
-
-ROI clear hai 😊
+Cost increase only $60 peak week.
 
 ---
 
 # 🚀 Real Output Example
 
-ALERT: CPU Utilization 75%  
-Action: Auto Scaling triggered  
-New Instance Launched  
-System Stable  
+ALERT: CPU 80%  
+Action: Auto Scaling launched new instance  
+Status: Stable  
 
 ---
 
-# ✅ Good Practice (Production Ready Mindset)
+# ✅ Good Practice (Production Mindset)
 
 ✔ Always use version constraint  
-✔ Variables use करो hardcoding मत करो  
-✔ State file Git में commit मत करो  
-✔ terraform plan production में mandatory  
-✔ Use remote backend  
+✔ Variables use karo hardcoding mat karo  
+✔ State file Git me commit mat karo  
+✔ terraform plan production me mandatory  
+✔ Remote backend use karo  
 
 ---
 
-# ❌ Bad Practice (Danger Zone)
+# ❌ Danger Zone
 
 ❌ Hardcoded subscription ID  
-❌ State file GitHub में push करना  
+❌ State file GitHub me push karna  
 ❌ Direct apply in production  
 ❌ No version control  
-❌ Portal से manually change करना  
+❌ Portal se manually change  
 
 ---
 
-# 📂 Git Push Commands
+# 📂 Git Commands
 
 ```bash
 # Check existing remote
@@ -267,9 +242,9 @@ git push
 
 ---
 
-# 🎯 Final Interview Line
+# 🎯 Interview Closing Line
 
-"Designed a secure, scalable, and cost-optimized AWS architecture aligned with FinOps principles, reducing cost by 28% while improving availability to 99.99%."
+"Designed a secure, auto-scalable AWS infrastructure aligned with FinOps principles, reducing operational risk and optimizing cost by 28%."
 
 ---
 
