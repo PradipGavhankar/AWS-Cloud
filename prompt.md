@@ -1,4 +1,4 @@
-# AWS-Cloud FinOps approch sara content markdown me dalna, aur code ke samane pure hindi me code kay kar raha hai ye bhi dena
+# AWS-Cloud FinOps approch sara content with full dept of knowledge to impress interviewer markdown me dalna, aur code ke samane pure hindi me code kay kar raha hai ye bhi dena
 Best practices,cost optimisation, security, worst practice and achivement with exact cost calculation ke dwara batana, jo interview me clear ho sake. koi bhi best practice wala point miss na ho, verify from all autenticte douments and provide link as reference for reding purpose for that perticular point. "Hindi" language pure and below English is needed. provide all content in sigle block so that i can copy and paste in VS code to push in git report, it should be more attractive and high with lovable and slight smile touch with examples. real, right cost per month and story telling me. in the end of page require
 ### 📌 Author
 Pradip – DevOps & Cloud Learning Journey
