@@ -3,7 +3,8 @@ Best practices,cost optimisation, security, worst practice and achivement with e
 ### 📌 Author
 Pradip – DevOps & Cloud Learning Journey
 Format rahega:
-AWS process and important task images
+AWS process and important task images needed which will clear practical exposer
+
 🟢 पहले हिन्दी में आसान समझ
 🔵 फिर English explanation
 🧱 फिर simple code (Hindi comments)
